@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import BoxGeneratorDisplay from './components/BoxGeneratorDisplay';
+import BoxGeneratorForm from './components/BoxGeneratorForm';
+
 
 function App() {
+  // State
+  const [currentBox, setCurrentBox] = useState(
+    [
+      { color: "red" },
+      { color: "blue" },
+      { color: "purple" }
+    ])
+
+
+  // Create Box
+  const createBox = (eNewBox) => {
+    // Temp Var: will get destroyed after function is run!
+    const copyOfBox = [...currentBox]
+    copyOfBox.push(eNewBox)
+    setCurrentBox(copyOfBox)
+  }
+
+
+  // Display
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <hr />
+      <BoxGeneratorForm createBox={createBox} />
+      {
+        currentBox.map((box, idx) => {
+          return <BoxGeneratorDisplay box={box} key={idx}
+          />
+        })
+      }
     </div>
   );
 }
+
 
 export default App;
